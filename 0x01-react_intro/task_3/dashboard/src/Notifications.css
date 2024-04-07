@@ -1,0 +1,19 @@
+.Notifications {
+    border: 5px dotted #E0354B;
+    padding: 2rem;
+    position: relative;
+}
+
+.close {
+    width: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+}
+
+.Notifications ul li[data-priority="default"] {
+    color: blue;
+  }
+  
+.Notifications ul li[data-priority="urgent"] {
+    color: red;
+  }
