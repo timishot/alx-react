@@ -4,6 +4,7 @@ import  { getFullYear, getFooterCopy } from './utils'
 
 function App() {
   return (
+    //working on the dashboard
     <div className='App'>
       <div className="App-header">
         <img alt="logo" src={logo} className='App-logo' />
