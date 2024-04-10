@@ -4,10 +4,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     mode: 'development',
     entry: {
-        bundle: path.resolve(__dirname, '../src/index.js'),
+        bundle: path.resolve('./src/index.js'),
     },
     output: {
-        path: path.resolve(__dirname, '../dist'),
+        path: path.resolve('./dist'),
         filename: '[name].js',
     },
     devtool: 'inline-source-map',
@@ -56,7 +56,7 @@ module.exports = {
         new HtmlWebpackPlugin({
           filename: 'index.html', // Corrected property name to 'filename'
           inject: true, // Changed to 'true' for automatic injection
-          template: './dist/index.html', // Adjusted the template path
+          template: './src/index.html', // Adjusted the template path
         }),
     ],
 }
