@@ -1,22 +1,16 @@
-import logo from '../assets/holborton_logo.jpg';
-import './App.css';
-import  { getFullYear, getFooterCopy } from '../utils/utils'
+import React from "react";
+import Login from "./Login";
+import { shallow } from "enzyme";
+import Login from "./Login";
 
-function App() {
-  return (
-    <div className='App'>
-      <div className="App-header">
-        <img alt="logo" src={logo} className='App-logo' />
-        <h1>School dashboard</h1>
-      </div>
-      <div className='App-body'>
-        <p>Login to access the full dashboard</p>
-      </div>
-      <div className='App-footer'>
-        <p>Copyright {getFullYear()} - {getFooterCopy()}</p>
-      </div>
-    </div>
-  );
-}
+describe("Login Component Tests", () => {
+  it("Renderswithout crashing", () => {
+    const login = shallow(<Login />)
+    except(login).toBeDefined();
+  });
+  it("renders a div with the class App-body", () => {
+    const login = shallow(<Login />);
 
-export default App;
+    expect(login.find(".App-body")).toBeDefined();
+  });
+})
