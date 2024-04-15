@@ -4,14 +4,16 @@ import closeIcon from "../assets/close-icon.png";
 import { getLatestNotification } from "../utils/utils";
 import NotificationItem from "./NotificationItem";
 import PropTypes from "prop-types";
+import NotificationItemShape from "./NotificationItemShape";
 
-function Notifications({ displayDrawer }) {
+
+function Notifications({ listNotifications }) {
   const handleCloseClick = () => {
     console.log("Close button has been clicked");
   };
   return (
     <React.Fragment>
-      {displayDrawer ? (
+      {listNotifications.length > 0 ? (
         <div className="flex-area">
           <div className="menuItem">
             <p>Your notifications</p>
@@ -26,15 +28,15 @@ function Notifications({ displayDrawer }) {
             </button>
             <p>Here is the list of notifications</p>
             <ul>
-              <NotificationItem type="default" value="New course available" />
-              <NotificationItem type="urgent" value="New resume available" />
-              <NotificationItem type="urgent" html={getLatestNotification()} />
+              {listNotifications.map(({ id, __html, type, value }) => (
+              <NotificationItem key={id} __html={__html} type={type} value={value} />
+            ))}
             </ul>
           </div>
         </div>
       ) : (
         <div className="menuItem">
-          <p>Your notifications</p>
+          <p>No new notification for now</p>
         </div>
       )}
     </React.Fragment>
@@ -43,10 +45,12 @@ function Notifications({ displayDrawer }) {
 
 Notifications.propTypes = {
   displayDrawer: PropTypes.bool,
+  listNotifications: PropTypes.arrayOf(NotificationItemShape),
 };
 
 Notifications.defaultProps = {
   displayDrawer: false,
+  listNotifications:  [],
 };
 
 export default Notifications;

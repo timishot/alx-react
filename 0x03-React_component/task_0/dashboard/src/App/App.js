@@ -1,12 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
 import Notifications from "../Notifications/Notifications";
 import Header from "../Header/Header";
 import Login from "../Login/Login";
 import Footer from "../Footer/Footer";
-import CourseList from "../CourseList/CourseList";
-import PropTypes from "prop-types";
 import "./App.css";
-import { getLatestNotification } from "../utils/utils";
+import PropTypes from "prop-types";
+import CourseList from "../CourseList/CourseList";
 
 const listCourses = [
   { id: 1, name: "ES6", credit: 60 },
@@ -17,34 +16,27 @@ const listCourses = [
 const listNotifications = [
   { id: 1, type: "default", value: "New course available" },
   { id: 2, type: "urgent", value: "New resume available" },
-  { id: 3, type: "urgent", html: getLatestNotification() },
 ];
 
-class App extends Component {
-  static defaultProps = {
-    isLoggedIn: false,
-  };
-
-  static propTypes = {
-    isLoggedIn: PropTypes.bool,
-  };
-
-  render() {
-    const { isLoggedIn } = this.props;
-
-    return (
-      <React.Fragment>
-        <div className="App">
-          <div className="heading-section">
-            <Notifications listNotifications={listNotifications} />
-            <Header />
-          </div>
-          {isLoggedIn ? <CourseList listCourses={listCourses} /> : <Login />}
-          <Footer />
-        </div>
-      </React.Fragment>
-    );
-  }
+function App({ isLoggedIn }) {
+  return (
+    <React.Fragment>
+      <Notifications key = {listNotifications.id} listNotifications = {listNotifications} />
+      <div className="App">
+        <Header />
+        {isLoggedIn ? <CourseList listCourses = {listCourses} /> : <Login />}
+        <Footer />
+      </div>
+    </React.Fragment>
+  );
 }
+
+App.defaultProps = {
+  isLoggedIn: true,
+};
+
+App.propTypes = {
+  isLoggedIn: PropTypes.bool,
+};
 
 export default App;

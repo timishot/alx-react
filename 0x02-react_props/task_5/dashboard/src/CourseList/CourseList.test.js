@@ -32,4 +32,21 @@ describe('CourseList component', () => {
     expect(rows.at(4).prop('textFirstCell')).toBe('React');
     expect(rows.at(4).prop('textSecondCell')).toBe('40');
   });
+  it('renders correctly when listCourses is empty or not passed', () => {
+    const wrapperEmpty = shallow(<CourseList listCourses={[]} />);
+    const wrapperNotPassed = shallow(<CourseList />);
+    expect(wrapperEmpty.find(CourseListRow).length).toBe(1); // Header row
+    expect(wrapperEmpty.find(CourseListRow).text()).toContain('No course available yet');
+    expect(wrapperNotPassed.find(CourseListRow).length).toBe(1); // Header row
+    expect(wrapperNotPassed.find(CourseListRow).text()).toContain('No course available yet');
+  });
+
+  it('renders list of courses correctly', () => {
+    const courses = [
+      { id: 1, name: 'ES6', credit: 60 },
+      { id: 2, name: 'Webpack', credit: 20 },
+    ];
+    const wrapper = shallow(<CourseList listCourses={courses} />);
+    expect(wrapper.find(CourseListRow)).toHaveLength(courses.length + 1); // Header row + data rows
+  });
 });

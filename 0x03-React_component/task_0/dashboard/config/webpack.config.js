@@ -1,54 +1,63 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: "./src/index.js",
-  output: {
-    filename: "bundle.js",
-  },
-  mode: "development",
-  module: {
-    rules: [
-    {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
-      },
-      {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        // type: 'asset/resource',
-        use: [
-          "file-loader",
-          {
-            loader: "image-webpack-loader",
-            options: {
-              bypassOnDebug: true, // webpack@1.x
-              disable: true, // webpack@2.x and newer
+    mode: 'development',
+    entry: {
+        bundle: path.resolve(__dirname,'../src/index.js'),
+    },
+    output: {
+        path: path.resolve('./dist'),
+        filename: '[name].js',
+    },
+    devtool: 'inline-source-map',
+    devServer: {
+        hot: true,
+        static: path.resolve('./dist'),
+        compress: true,
+        port: 8564
+    },
+    performance: {
+        maxAssetSize: 1000000,
+        maxEntrypointSize: 1000000,
+    },
+    module: {
+        rules: [
+            {
+              test: /\.js$/,
+              exclude: /node_modules/,
+              use: {
+                loader: 'babel-loader',
+                options: {
+                  presets: ['@babel/preset-env', '@babel/preset-react'],
+                },
+              },
             },
-          },
-        ],
-      },
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: ["babel-loader"],
-      },
+            {
+              test: /\.css$/i,
+              use: ['style-loader', 'css-loader'],
+            },
+            {
+              test: /\.(gif|png|jpe?g|svg)$/i,
+              use: [
+                'file-loader',
+                {
+                  loader: 'image-webpack-loader',
+                  options: {
+                    bypassOnDebug: true,
+                    disable: true,
+                  },
+                },
+              ],
+            },
+          ],      
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+          title: 'dashboard',
+          name: 'index.html', // Corrected property name to 'filename'
+          inject: false, // Changed to 'true' for automatic injection
+          template: "./dist/index.html",
+        }),
     ],
-  },
-  resolve: {
-    extensions: ["*", ".js", ".jsx"],
-  },
-  devServer: {
-    static: "./dist",
-    compress: true,
-    open: true,
-    hot: true,
-    port: 8564,
-  },
-  devtool: "inline-source-map",
-  plugins: [
-    new HtmlWebpackPlugin({
-      name: "index.html",
-      inject: false,
-      template: "./dist/index.html",
-    }),
-  ],
-};
+}
