@@ -11,7 +11,6 @@ export default class Notifications extends Component {
   constructor(props){
     super(props);
     this.state = {};
-    this.markAsRead = this.markAsRead.bind(this);
   }
   static defaultProps = {
     displayDrawer: false,
@@ -51,7 +50,7 @@ export default class Notifications extends Component {
             <p>Here is the list of notifications</p>
             <ul>
               {listNotifications.map(({ id, __html, type, value }) => (
-              <NotificationItem key={id} __html={__html} type={type} value={value} markAsRead={this.markAsRead.bind(this, id)} />
+              <NotificationItem key={id} __html={__html} type={type} value={value} markAsRead={this.markAsRead} />
             ))}
             </ul>
           </div>

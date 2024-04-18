@@ -20,10 +20,12 @@
 
 [data-notification-type="default"] {
   color: blue;
+  cursor: pointer;
 }
 
 [data-urgent],
 [data-notification-type="urgent"] {
   color: red;
+  cursor: pointer;
 }
 
