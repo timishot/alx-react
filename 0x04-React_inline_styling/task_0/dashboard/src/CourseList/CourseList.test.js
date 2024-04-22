@@ -1,41 +1,52 @@
-import React from "react";
-import CourseList from "./CourseList";
-import CourseListRow from "./CourseListRow";
-import { shallow } from "enzyme";
+import React from 'react';
+import { shallow } from 'enzyme';
+import CourseList from './CourseList';
+import CourseListRow from './CourseListRow';
 
-const listCourses = [
-  { id: 1, name: "ES6", credit: 60 },
-  { id: 2, name: "Webpack", credit: 20 },
-  { id: 3, name: "React", credit: 40 },
-];
+describe('CourseList component', () => {
+  it('renders CourseList component without crashing', () => {
+    shallow(<CourseList />);
+  });
 
-describe("CourseList component tests", () => {
-  it("should render without crashing", () => {
+  it('renders the 5 different rows', () => {
     const wrapper = shallow(<CourseList />);
+    expect(wrapper.find('CourseListRow')).toHaveLength(5);
 
-    expect(wrapper.exists()).toBe(true);
+    const rows = wrapper.find('CourseListRow');
+    expect(rows.at(0).prop('isHeader')).toBe(true);
+    expect(rows.at(0).prop('textFirstCell')).toBe('Available courses');
+
+    expect(rows.at(1).prop('isHeader')).toBe(true);
+    expect(rows.at(1).prop('textFirstCell')).toBe('Course name');
+    expect(rows.at(1).prop('textSecondCell')).toBe('Credit');
+
+    expect(rows.at(2).prop('isHeader')).toBe(false);
+    expect(rows.at(2).prop('textFirstCell')).toBe('ES6');
+    expect(rows.at(2).prop('textSecondCell')).toBe('60');
+
+    expect(rows.at(3).prop('isHeader')).toBe(false);
+    expect(rows.at(3).prop('textFirstCell')).toBe('Webpack');
+    expect(rows.at(3).prop('textSecondCell')).toBe('20');
+
+    expect(rows.at(4).prop('isHeader')).toBe(false);
+    expect(rows.at(4).prop('textFirstCell')).toBe('React');
+    expect(rows.at(4).prop('textSecondCell')).toBe('40');
+  });
+  it('renders correctly when listCourses is empty or not passed', () => {
+    const wrapperEmpty = shallow(<CourseList listCourses={[]} />);
+    const wrapperNotPassed = shallow(<CourseList />);
+    expect(wrapperEmpty.find(CourseListRow).length).toBe(1); // Header row
+    expect(wrapperEmpty.find(CourseListRow).text()).toContain('No course available yet');
+    expect(wrapperNotPassed.find(CourseListRow).length).toBe(1); // Header row
+    expect(wrapperNotPassed.find(CourseListRow).text()).toContain('No course available yet');
   });
 
-  it("renders 5 different rows", () => {
-    const wrapper = shallow(<CourseList listCourses={listCourses} />);
-
-    expect(wrapper.find("thead").children()).toHaveLength(2);
-    wrapper.find("thead").forEach((node) => {
-      expect(node.equals(<CourseListRow textFirstCell="Course name" textSecondCell="Credit" isHeader={true} />));
-    });
-
-    expect(wrapper.find("tbody").children()).toHaveLength(3);
-    expect(wrapper.find("tbody").childAt(0).html()).toEqual("<tr><td>ES6</td><td>60</td></tr>");
-    expect(wrapper.find("tbody").childAt(1).html()).toEqual("<tr><td>Webpack</td><td>20</td></tr>");
-    expect(wrapper.find("tbody").childAt(2).html()).toEqual("<tr><td>React</td><td>40</td></tr>");
-  });
-
-  it("renders correctely when passed a list of courses", () => {
-    const wrapper = shallow(<CourseList listCourses={listCourses} />);
-
-    expect(wrapper.find("tbody").children()).toHaveLength(3);
-    expect(wrapper.find("tbody").childAt(0).html()).toEqual("<tr><td>ES6</td><td>60</td></tr>");
-    expect(wrapper.find("tbody").childAt(1).html()).toEqual("<tr><td>Webpack</td><td>20</td></tr>");
-    expect(wrapper.find("tbody").childAt(2).html()).toEqual("<tr><td>React</td><td>40</td></tr>");
+  it('renders list of courses correctly', () => {
+    const courses = [
+      { id: 1, name: 'ES6', credit: 60 },
+      { id: 2, name: 'Webpack', credit: 20 },
+    ];
+    const wrapper = shallow(<CourseList listCourses={courses} />);
+    expect(wrapper.find(CourseListRow)).toHaveLength(courses.length + 1); // Header row + data rows
   });
 });

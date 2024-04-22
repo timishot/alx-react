@@ -1,37 +1,37 @@
-import React from 'react';
-import { StyleSheet, css } from 'aphrodite';
+import React from "react";
+import logo from '../assets/holborton_logo.jpg';
+import { StyleSheet, css } from 'aphrodite'
+import  { getFullYear, getFooterCopy } from '../utils/utils'
 
 function Login() {
   return (
-    <main role='main' className={css(styles.login)}>
-      <p>Login to access the full dashboard</p>
-      <label htmlFor='email'>Email</label>
-      <input className={css(styles.inp)} type='email' name='email' id='email' />
-      <label htmlFor='password'>Password</label>
-      <input
-        className={css(styles.inp)}
-        type='password'
-        name='password'
-        id='password'
-      />
-      <button className={css(styles.btn)} type='button'>
-        OK
-      </button>
-    </main>
+    <React.Fragment>
+      <div className={css(styles.AppBody)}>
+        <p>Login to access the full dashboard</p>
+        <form>
+          <label htmlFor="email">Email:</label>
+          <input className={css(styles.inp)} type="email" name="email"></input>
+          <label htmlFor="password">Password:</label>
+          <input className={css(styles.inp)} type="password" name="password"></input>
+          <button>OK</button>
+        </form>
+      </div>
+    </React.Fragment>
   );
 }
 
+
 const styles = StyleSheet.create({
-  login: {
-    padding: '16px 24px',
+  AppBody: {
+    fontSize: '1rem',
+    padding: '2em',
+    borderBottom: '3px solid #e0354b',
+    height: '45%',
   },
+
   inp: {
-    margin: '4px',
-  },
-  btn: {
-    margin: '4px',
-    cursor: 'pointer',
-  },
-});
+    margin: '10px',
+  }
+})
 
 export default Login;

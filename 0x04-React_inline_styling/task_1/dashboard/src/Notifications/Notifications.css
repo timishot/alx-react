@@ -1,7 +1,30 @@
-[data-notification-type='default'] {
+/* .flex-area{
+  display: flex;
+  justify-content: flex-end;
+} */
+
+.menuItem{
+  display: flex;
+  justify-content: flex-end;
+}
+.Notifications {
+  padding: 1em;
+  border: 2px dashed red;
+  display: block;
+  top: 10px;
+  margin-top: 30px;
+  z-index: 0;
+}
+
+
+
+
+[data-notification-type="default"] {
   color: blue;
 }
 
-[data-notification-type='urgent'] {
+[data-urgent],
+[data-notification-type="urgent"] {
   color: red;
 }
+

@@ -1,5 +1,7 @@
 import React from "react";
-import "./Login.css";
+import logo from '../assets/holborton_logo.jpg';
+import './Login.css';
+import  { getFullYear, getFooterCopy } from '../utils/utils'
 
 function Login() {
   return (
