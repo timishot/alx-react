@@ -41,7 +41,7 @@ export default class Notifications extends Component {
           notifiCation.style.display = 'flex'; // or 'block' depending on its default display style
         }
       }
-  
+      // work with newState
       return newState;
     });
   };
