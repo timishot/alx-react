@@ -16,21 +16,27 @@ export default class Login extends Component {
     }
   }
 
-  handleLoginSubmit = () =>{
+  handleLoginSubmit = (event) =>{
+    event.preventDefault(); 
     this.setState({
       isLoggedIn:true,
     })
   }
 
   handleChangeEmail = (event)=> {
+    const email = event.target.value
+    
     this.setState({
-      email: event.target.value,
+      email,
+      enableSubmit: email !== '' && this.state.password !== '' // enable submit if only email and password is not empty
     })
   }
 
   handleChangePassword = (event)=> {
+    const password = event.target.value
     this.setState({
-      password: event.target.value,
+      password,
+      enableSubmit: password !== '' && this.state.email !== '' // enable submit if only email and password is not empty
     })
   }
 
@@ -44,7 +50,7 @@ export default class Login extends Component {
           <input className={css(styles.inp)} type="email" name="email" onChange={this.handleChangeEmail} ></input>
           <label htmlFor="password">Password:</label>
           <input className={css(styles.inp)} type="password" name="password" onChange={this.handleChangePassword} ></input>
-          <input type="submit" />
+          <input type="submit" disabled={!this.state.enableSubmit} />
         </form>
       </div>
     </React.Fragment>
