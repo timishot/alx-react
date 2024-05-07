@@ -9,6 +9,7 @@ import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBot
 import { getLatestNotification } from '../utils/utils';
 import BodySection from '../BodySection/BodySection';
 import { StyleSheet, css } from 'aphrodite'
+import { AppContext, defaultUser, defaultLogout } from './AppContext';
 
 const listCourses = [
   { id: 1, name: "ES6", credit: 60 },
@@ -28,6 +29,8 @@ export default class App extends Component {
     super(props);
     this.state = {
       displayDrawer: false,
+      user: defaultUser,
+      logOut: this.logOut,
     }
   }
   static defaultProps ={
@@ -67,15 +70,29 @@ export default class App extends Component {
     }
   }
 
+  logIn = (email, password) => {
+    const updateUser = {
+      email,
+      password,
+      isLoggedIn: true,
+    };
+    this.setState({user: updateUser});
+  }
+
+  logOut = () => {
+    this.setState({user: defaultUser})
+  }
+
   render() {
-    const { isLoggedIn } = this.props;
+    const { user } = this.state;
     return (
-      <React.Fragment>
+      <AppContext.Provider value={{user: this.state.user, logOut: this.state.logOut}}>
+        <React.Fragment>
              <div className={css(styles.body)}>
               <Notifications key = {listNotifications.id} listNotifications = {listNotifications} displayDrawer={this.state.displayDrawer} handleDisplayDrawer={this.handleDisplayDrawer} handleHideDrawer={this.handleHideDrawer} />
               <div className="App">
                 <Header />
-                {isLoggedIn ? <BodySectionWithMarginBottom title="Course list"> <CourseList listCourses = {listCourses} /> </BodySectionWithMarginBottom> : <BodySectionWithMarginBottom title="Log in to continue"> <Login  /> </BodySectionWithMarginBottom>}
+                {user.isLoggedIn ? <BodySectionWithMarginBottom title="Course list"> <CourseList listCourses = {listCourses} /> </BodySectionWithMarginBottom> : <BodySectionWithMarginBottom title="Log in to continue"> <Login  logIn={this.logIn} /> </BodySectionWithMarginBottom>}
                 <BodySection title="News from the School">
                     <p>
                       Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -90,6 +107,7 @@ export default class App extends Component {
               </div>
              </div>
       </React.Fragment>
+      </AppContext.Provider>
     )
   }
 }
